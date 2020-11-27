@@ -1,2 +1,2 @@
 import pymongo
-import queries
+import mongoProject
