@@ -1,15 +1,15 @@
 import pymongo
+import pprint
 
-host = ''
 port = 27017
-dbName = ''
 
 class ourDb():
-    def __init__(self):
+    def __init__(self, host, dbName):
         self.client = pymongo.MongoClient(host, port)
         self.db = self.client[dbName]
         self.buckets = self.db['buckets']
         self.stations = self.db['stations']
+
     '''
     counting low and high speeds
     pass in db['buckets'] from main, creates a pipeline to count the
