@@ -78,4 +78,4 @@ df_metadata.show()
 
 # Convert to CSV
 df_readings.coalesce(1).write.option("header", "true").csv("aggregated.csv")
-df_readings.coalesce(1).write.option("header", "true").csv("metadata.csv")
+df_metadata.coalesce(1).write.option("header", "true").csv("metadata.csv")
