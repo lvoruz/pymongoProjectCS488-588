@@ -2,13 +2,14 @@ import pymongo
 import pprint
 
 port = 27017
+dbName = 'cs488_588_project'
 
 class ourDb():
-    def __init__(self, host, dbName):
+    def __init__(self, host):
         self.client = pymongo.MongoClient(host, port)
         self.db = self.client[dbName]
-        self.buckets = self.db['buckets']
-        self.stations = self.db['stations']
+        self.buckets = self.db['aggregated_data']
+        self.stations = self.db['metadata']
 
     '''
     counting low and high speeds
@@ -17,8 +18,8 @@ class ourDb():
     '''
     def countLowHigh(self):
         pipeline = [
-            {'$group': {'sppeds<5': {'$sum': 'total_volume_less_5'},
-            'speeds>80': {'$sum': 'total_volume_greater_80'}}}
+            {'$group': {'_id': None, 'speeds<5': {'$sum': {'$toInt': '$speed<5'}},
+            'speeds>80': {'$sum': {'$toInt': '$speed>80'}}}}
         ]
         return list(self.buckets.aggregate(pipeline))
 
@@ -42,14 +43,16 @@ class ourDb():
     for September 15, 2011
     pass in db['stations'] and db['buckets'] from main
     '''
-
+    '''
     def singleDayTravelTimes(self):
         query = {'locationtext': 'Foster NB'}
         table = self.stations.find_one(filter = query)
         stationid, length = table['stationid'], table['length']
         pipeline = [
             {'stationid': stationid,
-            'startdate': {'$gte': '9/15/11 00:00:00', '$lt': '9/16/11 00:00:00'},
-            }
+            'startdate': {'$gte': '9-15-11 00:00:00', '$lt': '9-16-11 00:00:00'},
+            'enddate': {'$gte': '9-15-11 00:00:00', '$lt': '9-15-11 00:00:00'}},
+            {'$group': {'$multiply': [{'travel time:': {'$divide': [length: {'$divide': ['total_speed', 'total_volume']}}}, 3600}}}
         ]
-        return
+        return list(self.buckets.aggregate(pipeline))
+    '''
