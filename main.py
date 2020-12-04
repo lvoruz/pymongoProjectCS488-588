@@ -6,7 +6,7 @@ import pprint
 #make sure on set up your database name is cs488_588_project, and your collection names are aggregated_data and metadata
 #change host to the external ip of your database
 
-host = 'externalIp'
+host = '35.233.250.109'
 '''
 if len(sys.argv) < 3:
     print('insufficient arguments - start with \'python3 main.py [hostname][dbName]\'')
@@ -36,6 +36,17 @@ while True:
         exit(0)
     elif i == '1':
         pprint.pprint(data.countLowHigh())
+    elif i == '2':
+        pprint.pprint(data.fosterNBVolume())
+    elif i == '3':
+        travelTimes = data.singleDayTravelTimes()
+        for i in range(10):
+            pprint.pprint(travelTimes[i])
+    elif i == '4':
+        pprint.pprint(data.peakTravelTimes())
+    elif i == '6':
+        num = input('Enter a number to update Foster NB milepost to: ')
+        pprint.pprint(data.update(num))
     else:
         print('invalid option try again')
     exit(0)
