@@ -120,6 +120,10 @@ class ourDb():
 
     def update(self, num):
         query = {'locationtext': 'Foster NB'}
+        pprint.pprint('Old Values')
+        pprint.pprint(self.stations.find_one(filter = query))
         new_values = {'$set' : {'milepost': float(num)}}
         self.stations.update_one(query, new_values)
-        return self.stations.find_one(filter = query)
+        pprint.pprint('\nNew Values')
+        pprint.pprint(self.stations.find_one(filter = query))
+        return

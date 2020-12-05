@@ -33,7 +33,7 @@ while True:
     print('Select query option(enter the number):')
     print('1. Count low speeds and high speeds. Find the number of speeds\n'
           + 'less than 5 mph and greater than 80 mph in the data set\n'
-          + '2. Find teh totla volume for the station Foster NB for\n'
+          + '2. Find the total volume for the station Foster NB on\n'
           + 'September 15, 2011\n'
           + '3. Find the travel time for station Foster NB for 5-minute\n'
           + 'intervals for Sept 15, 2011. Report travel time in seconds.\n'
@@ -61,7 +61,7 @@ while True:
         pprint.pprint('Not implemented yet')
     elif i == '6':
         num = input('Enter a number to update Foster NB milepost to: ')
-        pprint.pprint(data.update(num))
+        data.update(num)
     else:
         clear()
         print('invalid option try again')
