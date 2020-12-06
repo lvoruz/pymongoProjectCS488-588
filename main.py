@@ -3,6 +3,7 @@ import mongoProject
 import sys
 import pprint
 from os import system, name
+from time import sleep
 
 def clear():
     if name == 'nt':#Windows
@@ -13,7 +14,7 @@ def clear():
 #make sure on set up your database name is cs488_588_project, and your collection names are aggregated_data and metadata
 #change host to the external ip of your database
 
-host = '35.233.250.109'
+host = '35.247.71.247'
 '''
 if len(sys.argv) < 3:
     print('insufficient arguments - start with \'python3 main.py [hostname][dbName]\'')
@@ -42,6 +43,7 @@ while True:
           + '5. Find a route from Johnson Creek to Columbia Blvd on I-205\n'
           + 'using upstream and downstream fields.\n'
           + '6. Update the milepost of Foster NB to any number you input.\n'
+          + '7. Query 2 but over a two month period.\n'
           + '0. Quit')
     i = input('Select: ')
     if i == '0':
@@ -62,8 +64,11 @@ while True:
     elif i == '6':
         num = input('Enter a number to update Foster NB milepost to: ')
         data.update(num)
+    elif i == '7':
+        pprint.pprint(data.twoMonthFosterNBVolume())
     else:
         clear()
         print('invalid option try again')
-    if i > 0 and i <= 6:
-        clear()
+        continue
+    sleep(5)
+    clear()

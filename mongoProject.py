@@ -1,6 +1,9 @@
 import pymongo
 import pprint
-from datetime import datetime
+from datetime import datetime, tzinfo
+import pytz
+
+tz = pytz.timezone('America/Los_Angeles')
 
 port = 27017
 dbName = 'cs488_588_project'
@@ -32,8 +35,8 @@ class ourDb():
     def fosterNBVolume(self):
         query = {'locationtext': 'Foster NB'}
         stationid = self.stations.find_one(filter = query)['stationid']
-        startDate = datetime(2011, 9, 15, 0, 0, 0)
-        endDate = datetime(2011, 9, 16, 0, 0, 0)
+        startDate = datetime(2011, 9, 15, 0, 0, 0, tzinfo = tz)
+        endDate = datetime(2011, 9, 16, 0, 0, 0, tzinfo = tz)
         pipeline = [
         {'$match': {'stationid': stationid}},
         {'$match': {'startdate': {'$gte': startDate, '$lt': endDate}}},
@@ -51,8 +54,8 @@ class ourDb():
         query = {'locationtext': 'Foster NB'}
         table = self.stations.find_one(filter = query)
         stationid, length = table['stationid'], table['length']
-        startDate = datetime(2011, 9, 15, 0, 0, 0)
-        endDate = datetime(2011, 9, 16, 0, 0, 0)
+        startDate = datetime(2011, 9, 15, 0, 0, 0, tzinfo = tz)
+        endDate = datetime(2011, 9, 16, 0, 0, 0, tzinfo = tz)
         pipeline = [
         {'$match': {'stationid': stationid}},
         {'$match': {'startdate': {'$gte': startDate, '$lt': endDate}}},
@@ -74,10 +77,10 @@ class ourDb():
          ]
          totalLength = self.stations.aggregate(pipeline)
          totalLength = list(totalLength)[0]['totalLength']
-         startDateAM = datetime(2011, 9, 22, 7, 0, 0)
-         endDateAM = datetime(2011, 9, 22, 9, 0, 0)
-         startDatePM = datetime(2011, 9, 22, 16, 0, 0)
-         endDatePM = datetime(2011, 9, 22, 18, 0, 0)
+         startDateAM = datetime(2011, 9, 22, 7, 0, 0, tzinfo = tz)
+         endDateAM = datetime(2011, 9, 22, 9, 0, 0, tzinfo = tz)
+         startDatePM = datetime(2011, 9, 22, 16, 0, 0, tzinfo = tz)
+         endDatePM = datetime(2011, 9, 22, 18, 0, 0, tzinfo = tz)
          pipeline = [
          {'$match': {'stationid': {'$in': ids}}},
          {'$match': {'startdate': {'$gte': startDateAM, '$lt': endDateAM}}},
@@ -127,3 +130,16 @@ class ourDb():
         pprint.pprint('\nNew Values')
         pprint.pprint(self.stations.find_one(filter = query))
         return
+
+    def twoMonthFosterNBVolume(self):
+        query = {'locationtext': 'Foster NB'}
+        stationid = self.stations.find_one(filter = query)['stationid']
+        startDate = datetime(2011, 9, 15, 0, 0, 0, tzinfo = tz)
+        endDate = datetime(2011, 11, 15, 0, 0, 0, tzinfo = tz)
+        pipeline = [
+        {'$match': {'stationid': stationid}},
+        {'$match': {'startdate': {'$gte': startDate, '$lt': endDate}}},
+        {'$match': {'enddate': {'$gte': startDate, '$lt': endDate}}},
+        {'$group': {'_id': None, 'volume': {'$sum': '$total_volume'}}}
+        ]
+        return list(self.buckets.aggregate(pipeline))
