@@ -3,7 +3,7 @@ import mongoProject
 import sys
 import pprint
 from os import system, name
-from time import sleep
+from time import time, sleep
 
 def clear():
     if name == 'nt':#Windows
@@ -14,7 +14,7 @@ def clear():
 #make sure on set up your database name is cs488_588_project, and your collection names are aggregated_data and metadata
 #change host to the external ip of your database
 
-host = '35.247.71.247'
+host = '34.83.60.142'
 '''
 if len(sys.argv) < 3:
     print('insufficient arguments - start with \'python3 main.py [hostname][dbName]\'')
@@ -46,6 +46,7 @@ while True:
           + '7. Query 2 but over a two month period.\n'
           + '0. Quit')
     i = input('Select: ')
+    startTime = time()
     if i == '0':
         print('goodbye')
         exit(0)
@@ -69,6 +70,8 @@ while True:
     else:
         clear()
         print('invalid option try again')
-        continue
-    sleep(5)
+        #continue
+    runtime = time() - startTime
+    pprint.pprint('Runtime: ' + str(round(runtime, 3)) + ' seconds')#prints runtime rounded to 3 decimals
+    i = input('Continue (press enter)')
     clear()
