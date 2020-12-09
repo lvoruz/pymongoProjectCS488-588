@@ -14,7 +14,7 @@ def clear():
 #make sure on set up your database name is cs488_588_project, and your collection names are aggregated_data and metadata
 #change host to the external ip of your database
 
-host = '34.83.60.142'
+host = 'externalIPaddress'
 '''
 if len(sys.argv) < 3:
     print('insufficient arguments - start with \'python3 main.py [hostname][dbName]\'')

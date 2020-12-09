@@ -119,7 +119,7 @@ class ourDb():
          0, {'$divide': [{'$sum': '$total_speed'}, {'$sum': '$total_volume'}]}]}, 0]},0,{'$divide': [totalLength, {'$divide': [{'$sum': '$total_speed'}, {'$sum': '$total_volume'}]}]}]},60]}}}}
          ]
          '''
-         return list(self.buckets.aggregate(pipeline))
+         #return list(self.buckets.aggregate(pipeline))
 
     def update(self, num):
         query = {'locationtext': 'Foster NB'}
